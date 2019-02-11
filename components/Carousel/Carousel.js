@@ -1,57 +1,107 @@
 class Carousel {
     constructor(carousel) {
         this.carousel = carousel;
-        this.left = this.carousel.querySelector('.left-button');
-        this.right = this.carousel.querySelector('.right-button');
         this.images = this.carousel.querySelectorAll('img');
-        this.images[0].classList.add('visible');
-        this.visibleImg = carousel.querySelector('.visible');
-        
-        this.left.addEventListener('click', this.leftBtn.bind(this));
-        this.right.addEventListener('click', this.rightBtn.bind(this));
+        this.images.forEach(n => n.style.zIndex = '-1');
+        this.visibleImg = this.images[0];
+        this.visibleImg.style.left = '0%';
+        this.visibleImg.style.zIndex = '0';
+        this.rightImg = this.images[1];
+        this.rightImg.style.left = '100%';
+        //this.rightImg.style.zIndex = '1';
+        this.leftImg = this.images[this.images.length - 1];
+        this.leftImg.style.left = '-100%';
+        //this.leftImg.style.zIndex = '1';
+        this.rightBtn = this.carousel.querySelector('.right-button');
+        this.leftBtn = this.carousel.querySelector('.left-button');
+        this.rightBtn.style.zIndex = '2';
+        this.leftBtn.style.zIndex = '2';
+
+        this.rightBtn.addEventListener('click', this.right.bind(this));
+        this.leftBtn.addEventListener('click', this.left.bind(this));
     }
 
-    leftBtn() {
-        if(this.visibleImg == this.images[0]) {
-            this.images[0].classList.remove('visible');
-            this.images[this.images.length - 1].classList.add('visible');
-        } else {
-            for(let i = this.images.length - 1; i >= 0; i--) {
-                if(this.visibleImg == this.images[i]) {
-                    this.images[i].classList.remove('visible');
-                    this.images[i - 1].classList.add('visible');
+    right() {
+        this.visibleImg.style.zIndex = '0';
+        this.rightImg.style.zIndex = '1';
+        this.leftImg.style.zIndex = '-1';
+
+        let visible;
+        let right;
+        let left;
+
+        for(let i = 0; i <= this.images.length - 1; i++) {
+            if(this.visibleImg == this.images[i]) {
+                left = this.images[i];
+                if(this.images[i] == this.images[this.images.length - 1]) {
+                    visible = this.images[0];
+                    right = this.images[1];
+                } else {
+                    visible = this.images[i + 1];
+                    if(this.images[i + 1] == this.images[this.images.length - 1]) {
+                        right = this.images[0];
+                    } else {
+                        right = this.images[i + 2];
+                    }
                 }
             }
         }
-        this.visibleImg = this.carousel.querySelector('.visible');
-        console.log(this.visibleImg);
+
+        visible.style.left = '0%';
+        right.style.left = '100%';
+        left.style.left = '-100%';
+
+        visible.style.transition = 'left 0.5s linear';
+        left.style.transition = 'left 0.5s linear';
+
+        this.visibleImg = visible;
+        this.rightImg = right;
+        this.leftImg = left;
     }
 
-    rightBtn() {
-        for(let i = 0; i < this.images.length - 1; i++) {
-            if(this.images[i] == this.visibleImg) {
-                this.images[i].classList.remove('visible');
-                this.images[i + 1].classList.add('visible');
-                console.log(this.visibleImg);
-            } 
-            
-            if(this.visibleImg == this.images[this.images.length - 1]) {
-                this.visibleImg.classList.remove('visible');
-                this.images[0].classList.add('visible');
+    left() {
+        this.visibleImg.style.zIndex = '0';
+        this.rightImg.style.zIndex = '-1';
+        this.leftImg.style.zIndex = '1';
+        
+        if(this.visibleImg == this.images[0]) {
+            this.visibleImg.style.left = '100%';
+            this.visibleImg.style.transition = 'left linear 0.5s'
+        }
+
+        let visible;
+        let right;
+        let left;
+
+        for(let i = 0; i <= this.images.length - 1; i++) {
+            if(this.visibleImg == this.images[i]) {
+                right = this.images[i];
+                if(this.images[i] == this.images[0]) {
+                    visible = this.images[this.images.length - 1];
+                    left = this.images[this.images.length - 2];
+                } else {
+                    visible = this.images[i - 1];
+                    if(this.images[i - 1] == this.images[0]) {
+                        left = this.images[this.images.length - 1];
+                    } else {
+                        left = this.images[i - 2];
+                    }
+                }
             }
         }
-        this.visibleImg = this.carousel.querySelector('.visible');
+        
+        visible.style.left = '0%';
+        right.style.left = '100%';
+        left.style.left = '-100%';
+
+        visible.style.transition = 'left 0.5s linear';
+        left.style.transition = 'left 0.5s linear';
+
+        this.visibleImg = visible;
+        this.rightImg = right;
+        this.leftImg = left;
     }
 }
 
 let carousel = document.querySelector('.carousel');
 new Carousel(carousel);
-
-/* If You've gotten this far, you're on your own! Although we will give you some hints:
-    1. You will need to grab a reference to the carousel, and in it grab the laft and right buttons
-    2. You will need to grab a reference to all of the images
-    3. Create a current index
-    4. Those buttons are gonna need some click handlers.
-    5. Think of how you would animate this compoennt. Make the cards slide in and out, or fade. It's up to you!
-    6. Have fun!
-*/
