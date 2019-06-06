@@ -32,13 +32,23 @@ Edit this document to include your answers after each question. Make sure to lea
 
 1. What is the DOM?
 
+The DOM is the Document Object Model. The DOM is the structure of the html document, and it's interpreted by Javascript as an object. The document interpreted as an object allows javascript a lot of versatility in manipulating the document.
+
 2. What is an event?
+
+An event is a user-initiated action for javascript to look for. Events are user-initiated because they require the user to do something specific to the page. These actions include clicking something on the page, pressing a key on the keyboard, dragging an item on the page, etc.
 
 3. What is an event listener?
 
+And event listener is a javascript method that can be placed on to any DOM element. The event listener consists of the 'event' or user-action for javascript to look out for, and a callback function. The callback function will trigger only when the event being listened for triggers.
+
 4. Why would we convert a NodeList into an Array?
 
+Converting a nodelist into an array gives a bit more control over the nodelist items. Some methods don't work properly on nodelists, so creating an array from a nodelist allows you to use these higher order functions to manipulate the items.
+
 5. What is a component?
+
+A component is a modular item created in javascript that is reuseable, and can be used even in multiple projects. The common component we've been using is tabbed content. This kind of component takes the content to be displayed when each tab is active and links it to the tab itself. So when the tab is clicked, the proper content displays.
 
 ### Git Set up
 
